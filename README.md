@@ -1,7 +1,7 @@
 # DSH 桌面常驻执行浮窗（dsh-client-ui-hud）
 
 一个独立的桌面置顶 HUD：盖在 DSH、Edge、PowerPoint、终端等普通窗口之上，
-DSH 启动时自动拉起，DSH 关闭时自动退出。原来那个只在 DSH 窗口内部的浮窗已移除。
+DSH 启动时自动拉起，DSH 关闭时自动退出。
 
 ![桌面浮窗](docs/compact-panel.png)
 
