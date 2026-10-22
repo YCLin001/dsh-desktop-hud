@@ -70,7 +70,7 @@ New-Item -ItemType Directory -Path $nm -Force | Out-Null
 $link = Join-Path $nm 'dsh-client-ui-hud'
 if (Test-Path $link) { cmd /c rmdir "$link" }
 New-Item -ItemType Junction -Path $link `
-  -Target 'C:\Users\YC\Documents\deepseek-harness\default-workspace\hud-plugin' | Out-Null
+  -Target 'C:\Users\Documents\deepseek-harness\default-workspace\hud-plugin' | Out-Null
 ```
 
 在 `cordis.patch.yml` 末尾追加：
