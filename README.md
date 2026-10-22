@@ -12,7 +12,7 @@ DSH 启动时自动拉起，DSH 关闭时自动退出。
 ## 功能
 
 - **更紧凑**：默认 340×480（随 DPI 缩放），活动列表保留 6 行，超出滚动。
-- **跨应用置顶**：`Topmost` + 无边框，切到浏览器、PowerPoint、终端都看得见；
+- **跨应用置顶**：`Topmost` + 无边框，切到浏览器、终端得窗口都看得见；
   最小化/遮挡 DSH 不影响它。
 - **实时进度**：第几轮 / 第几步、已运行时长、当前工具/命令、活动流。
 - **细节**：点击任意活动行打开详情（参数、结果、思考/回复全文）。
@@ -47,14 +47,6 @@ DSH 页面（client.js）
 - 浏览器插件每 600ms 轮询 `/command`，执行 `session.cancel()` /
   `session.prompt()`；桌面窗只负责展示和排队命令。
 - 没有 `shell.overlay` 注册，也不加载 React；窗口内不再有任何 HUD。
-
-## 安装位置
-
-- 插件源码：`C:\Users\YC\Documents\deepseek-harness\default-workspace\hud-plugin`
-- profile 链接：`C:\Users\YC\.dsh\profiles\desktop\node_modules\dsh-client-ui-hud`
-  → 指向上面的源码目录（Windows junction）。
-- profile 配置：`C:\Users\YC\.dsh\profiles\desktop\cordis.patch.yml` 末尾的
-  `ui-floating-hud` insert 条目。
 
 Host 通过 profile 的 `node_modules` 解析包名；`lib/index.js` 负责拉起桌面窗口，
 `lib/client.js` 只保留桥接逻辑。
