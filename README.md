@@ -1,7 +1,7 @@
 # DSH 桌面常驻执行浮窗（dsh-client-ui-hud）
 
-一个独立的桌面置顶 HUD：盖在 DSH、Edge、PowerPoint、终端等普通窗口之上，
-DSH 启动时自动拉起，DSH 关闭时自动退出。原来那个只在 DSH 窗口内部的浮窗已移除。
+一个独立的桌面置顶 HUD：盖在 DSH、Edge、终端等普通窗口之上，
+DSH 启动时自动拉起，DSH 关闭时自动退出
 
 ![桌面浮窗](docs/compact-panel.png)
 
@@ -48,14 +48,6 @@ DSH 页面（client.js）
   `session.prompt()`；桌面窗只负责展示和排队命令。
 - 没有 `shell.overlay` 注册，也不加载 React；窗口内不再有任何 HUD。
 
-## 安装位置
-
-- 插件源码：`C:\Users\YC\Documents\deepseek-harness\default-workspace\hud-plugin`
-- profile 链接：`C:\Users\YC\.dsh\profiles\desktop\node_modules\dsh-client-ui-hud`
-  → 指向上面的源码目录（Windows junction）。
-- profile 配置：`C:\Users\YC\.dsh\profiles\desktop\cordis.patch.yml` 末尾的
-  `ui-floating-hud` insert 条目。
-
 Host 通过 profile 的 `node_modules` 解析包名；`lib/index.js` 负责拉起桌面窗口，
 `lib/client.js` 只保留桥接逻辑。
 
@@ -78,7 +70,7 @@ New-Item -ItemType Directory -Path $nm -Force | Out-Null
 $link = Join-Path $nm 'dsh-client-ui-hud'
 if (Test-Path $link) { cmd /c rmdir "$link" }
 New-Item -ItemType Junction -Path $link `
-  -Target 'C:\Users\YC\Documents\deepseek-harness\default-workspace\hud-plugin' | Out-Null
+  -Target 'C:\Users\Documents\deepseek-harness\default-workspace\hud-plugin' | Out-Null
 ```
 
 在 `cordis.patch.yml` 末尾追加：
