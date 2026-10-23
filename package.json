@@ -20,6 +20,8 @@
     "lib/index.js",
     "lib/client.js",
     "overlay/hud_overlay.py",
+    "overlay/hud_watchdog.ps1",
+    "overlay/dsh-hud-watchdog.vbs",
     "README.md",
     "package.json"
   ]

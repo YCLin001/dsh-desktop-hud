@@ -90,7 +90,20 @@ New-Item -ItemType Junction -Path $link `
 ```
 
 保存后等 HMR 重组；如果客户端 bundle 没刷新，按一次 `Ctrl+R` 重载页面。
-桌面窗口由 Host 插件自动启动，不需要单独开机自启。
+桌面窗口由 Host 插件自动启动；下面的 watchdog 作为兜底。
+
+## 自动启动兜底（watchdog）
+
+DSH 更新时可能重写 `cordis.patch.yml`，把 `ui-floating-hud` 条目冲掉。为保证浮窗仍然自动出现，安装了一个登录启动的 watchdog：
+
+- 启动项：`%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\dsh-hud-watchdog.vbs`
+- 脚本：`overlay/hud_watchdog.ps1`
+- 每 20 秒：
+  - 检查 profile，缺 `ui-floating-hud` 就补回；
+  - DSH 在运行但 `38471` 未监听，就拉起浮窗（带 DSH 进程 PID，DSH 退出时浮窗自动关）；
+  - 已经运行时不做任何事。
+- 日志：`%LOCALAPPDATA%\dsh-hud\watchdog.log`
+- 停用：删除启动项里的 `dsh-hud-watchdog.vbs`，或创建 `%LOCALAPPDATA%\dsh-hud\watchdog-disabled` 后重启 watchdog。
 
 ## 文件结构
 
@@ -100,6 +113,8 @@ hud-plugin/
   lib/index.js              # Host 插件：拉起/回收桌面浮窗
   lib/client.js             # 仅保留 status/command 桥接
   overlay/hud_overlay.py    # Tk 置顶桌面浮窗 + 127.0.0.1:38471 HTTP 桥
+  overlay/hud_watchdog.ps1  # 登录 watchdog：补 profile 条目 + 拉起浮窗
+  overlay/dsh-hud-watchdog.vbs # 启动项
   test-client.cjs           # 客户端 bridge 模块加载模拟测试
   test-host.mjs             # Host 插件 spawn/dispose 测试
   README.md
@@ -116,3 +131,5 @@ hud-plugin/
 - 修改 `lib/client.js` 后需要 `Ctrl+R` 重载页面；修改
   `overlay/hud_overlay.py` 后需要重启桌面浮窗进程（关闭 DSH 再开，或手动
   `Stop-Process` 后重新运行）。
+- DSH 更新可能重写 profile 并删除 `ui-floating-hud`；watchdog 会自动补回，
+  但客户端 bridge 要等 HMR 或 `Ctrl+R` 才会重新加载。
